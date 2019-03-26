@@ -1,0 +1,638 @@
+﻿<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewRules</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+    <!-- Bootstrap Core CSS -->
+    <link href="./assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- chartist CSS -->
+    <link href="./assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="./assets/plugins/chartist-js/dist/chartist-init.css" rel="stylesheet">
+    <link href="./assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="./assets/plugins/css-chart/css-chart.css" rel="stylesheet">
+    <!-- Vector CSS -->
+    <!-- Custom CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="./css/colors/blue.css" rel="stylesheet" />
+</head>
+<style>
+    .wordStyle12 {
+        font-size: 12px;
+        font-family: 微軟正黑體;
+        font-weight: bold;
+    }
+
+    .ddl {
+        /* dropdownlist 樣式 參考 http://localhost:7642/DropDownListStyle.aspx */
+        border: 2px solid #7d6754;
+        border-radius: 5px;
+        padding: 1px 3px;
+        -webkit-appearance: none;
+        /*background-image:url('/_layouts/1028/IMAGES/Common/Arrowhead-Down-01.png');*/
+        background-position: 115px; /* <----------------------- 依據ddl長度修改 箭頭位置 */
+        background-repeat: no-repeat;
+        text-indent: 0.01px; /*In Firefox*/
+        text-overflow: ''; /*In Firefox*/
+    }
+
+    .textbox {
+        /* textbox 樣式 參考: http://html-generator.weebly.com/css-textbox-style.html */
+        background: #F6F1DB;
+        /*border: 1px double #DDD;*/
+        border: 2px solid #7d6754;
+        border-radius: 5px;
+        /*box-shadow: 0 0 5px #333;*/
+        /*color: #666;*/
+        color: Black;
+        outline: none;
+        padding: 1px 6px; /*撐開上下與左邊*/
+        height: 25px;
+        width: 275px;
+    }
+
+    .table tbody tr td {
+        vertical-align: middle;
+    }
+
+    .datepick {
+    }
+    /*時間挑選用*/
+    .dataTable > thead > tr > th[class*="sort"]:after {
+        content: "" !important;
+    }
+
+    table.dataTable thead > tr > th.sorting_asc,
+    table.dataTable thead > tr > th.sorting_desc,
+    table.dataTable thead > tr > th.sorting_asc,
+    table.dataTable thead > tr > td.sorting_asc,
+    table.dataTable thead > tr > td.sorting_desc,
+    table.dataTable thead > tr > td.sorting {
+    }
+
+    th {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+</style>
+
+<script src="./assets/plugins/jquery/jquery.min.js"></script>
+<script src="./assets/plugins/jquery/jquery-ui.min.js"></script>
+<link href="./assets/plugins/jquery/jquery-ui.theme.min.css" rel="stylesheet" />
+<link href="./assets/plugins/jquery/jquery-ui.min.css" rel="stylesheet" />
+
+<!-- Bootstrap tether Core JavaScript -->
+<script src="./assets/plugins/popper/popper.min.js"></script>
+<script src="./assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script src="./js/jquery.slimscroll.js"></script>
+<!--Wave Effects -->
+<script src="./js/waves.js"></script>
+<!--Menu sidebar -->
+<script src="./js/sidebarmenu.js"></script>
+<!--stickey kit -->
+<script src="./assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+<script src="./assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+<!--stickey kit -->
+<script src="./assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+<script src="./assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+<script src="./assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+<!--Custom JavaScript -->
+<script src="./js/custom.min.js"></script>
+
+<script src="./assets/plugins/datatables/jquery.dataTables.min.js"></script>
+
+<!-- start - This is for export functionality only -->
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<!-- end - This is for export functionality only -->
+
+<body class="fix-header fix-sidebar card-no-border" onload="init()">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="">
+                        <!-- Logo icon -->
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="./assets/images/logo-light-icon-DynaSafe.png" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="./assets/images/logo-light-icon-DynaSafe.png" alt="homepage" class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span>
+                            <!-- dark Logo text -->
+                            <img src="./assets/images/logo-light-text-DynaSafe.png" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo text -->
+                            <img src="./assets/images/logo-light-text-DynaSafe.png" class="light-logo" alt="homepage" />
+                        </span>
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <li class="nav-item"><a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a></li>
+                        <li class="nav-item"><a class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a></li>
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- User profile -->
+                <div class="user-profile" style="background: url(./assets/images/background/user-info.jpg) no-repeat;">
+                    <!-- User profile image -->
+                    <div class="profile-img">
+                        <img src="./assets/images/users/profile.png" alt="user" />
+                    </div>
+                    <!-- User profile text-->
+                    <div class="profile-text">
+                        <a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">DynaSafe</a>
+                        <div class="dropdown-menu animated flipInY">
+                            <a href="#" class="dropdown-item"><i class="ti-user"></i>My Profile</a> <a href="#" class="dropdown-item"><i class="ti-wallet"></i>My Balance</a> <a href="#" class="dropdown-item"><i class="ti-email"></i>Inbox</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item"><i class="ti-settings"></i>Account Setting</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End User profile text-->
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-bullseye"></i><span class="hide-menu">功能</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="">新增規則</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+            <!-- Bottom points-->
+            <div class="sidebar-footer">
+                <!-- item-->
+                <a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
+                <!-- item-->
+                <a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
+                <!-- item-->
+                <a href="" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a>
+            </div>
+            <!-- End Bottom points-->
+        </aside>
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <!--Content-->
+                <div class="row page-titles">
+                    <div class="col-md-5 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Algosec_Compare</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Algosec_Compare</li>
+                        </ol>
+                    </div>
+                </div>
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 60px;">
+                            <span style="font-weight: bold">防火牆:</span>
+                        </td>
+                        <!--<td style="width: 2px;"></td>-->
+                        <td style="width: 90px;">
+                            <select id="tb_device" class="ddl wordStyle12">
+                                <!-- <option value="Juniper NetScreen">Juniper NetScreen</option>
+                                <option value="FortiGate">FortiGate</option>
+                                <option value="ASA">ASA</option> -->
+                            </select>
+                        </td>
+                        <td style="width: 5px;"></td>
+                        <td style="width: 90px;">
+                            <span style="font-weight: bold">查詢日期起:</span>
+                        </td>
+                        <td style="width: 90px;">
+
+                            <input type="text" id="tb_Date_Start" class="datepick textbox wordStyle12" style="width: 90px;">
+                        </td>
+                        <td style="width: 5px;"></td>
+                        <!--<td style="width: 90px;">
+                            <span style="font-weight: bold">查詢日期訖:</span>
+                        </td>
+                        <td style="width: 90px;">
+
+                            <input type="text" id="tb_Date_End" class="datepick textbox wordStyle12" style="width: 90px;">
+                        </td>-->
+
+                        <td style="width: 5px;"></td>
+                        <td style="width: 80px;">
+                            <span id="OldCommentSpan" style="font-weight: bold">Comment:</span>
+                        </td>
+                        <td style="width: 80px;">
+
+                            <input type="text" id="tb_OldComment" style="width: 80px;" class="textbox wordStyle12">
+                        </td>
+                        <!--<td style="width:5px;"></td>
+                        <td style="width:50px;">
+                           
+                        </td>-->
+                        <td style="width: 5px;"></td>
+
+                        <td style="width: 50px;">
+                            <a href='#' onclick='CheckCommentValue()' class="btn btn-success wordStyle12"><i class="fa fa-search"></i>覆核</a>
+                        </td>
+                        <td style="width: 5px;"></td>
+                        <td colspan="6" align="right">
+                            <a href='#' onclick='ExportExcel()' class="wordStyle12"><i class="fas fa-download"></i>Export to Excel</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 60px;">
+                            <span style="font-weight: bold">單別:</span>
+                        </td>
+                        <td>
+                            <select id="ddlCommentType" class="ddl wordStyle12" onchange="DynamicAddInputNewComment()">
+                                <option value="AddAndRemove">新增及移除單</option>
+                                <option value="Edit">異動單</option>
+
+                            </select>
+                        </td>
+                        <td style="width: 5px;"></td>
+                        <td style="width: 90px;">
+                            <span style="font-weight: bold">查詢日期訖:</span>
+                        </td>
+                        <td style="width: 90px;">
+
+                            <input type="text" id="tb_Date_End" class="datepick textbox wordStyle12" style="width: 90px;">
+                        </td>
+
+                        <td style="width: 5px;"></td>
+
+                        <td></td>
+                        <td style="width: 80px;">
+
+                            <span id="NewCommentSpan" style="font-weight: bold; visibility: hidden"></span>
+                        </td>
+                        <td style="width: 80px;">
+                            
+                            <input type="text" id="tb_NewComment" class="textbox wordStyle12" style="width: 80px; visibility: hidden">
+                        </td>
+                        <td style="width: 5px;"></td>
+                        <td colspan="16" align="right">
+                            <a href='#' onclick='send()' class="btn btn-primary wordStyle12"><i class="fa fa-check"></i>產生防火牆內部資料</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-responsive" style="padding-left: 10px;">
+                <table id="ipTable" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%"></table>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var sess_ID = "";
+    var myObj = new Array();
+    var deviceBox = new Array();
+    var devicetext = "";
+    $(function () {
+        //CheckUserBrowserInfo();
+        setDatePicker();
+        init();
+    });
+    //function CheckUserBrowserInfo() {
+    //    if (navigator.userAgent.match("Chrome")) {
+    //        alert('Chrome');
+    //    }
+    //    else {
+    //        alert('Not Chrome');
+    //    }
+
+    //}
+    //依據單別挑選動態新增Comment控制項，並調整Span文字
+    function DynamicAddInputNewComment() {
+        var value = $("#ddlCommentType").val();
+
+        if (value == 'Edit') {
+
+            document.all["NewCommentSpan"].style.visibility = "visible";
+            document.all["tb_NewComment"].style.visibility = "visible";
+
+            //修改span文字
+            $("#OldCommentSpan").text("Comment(Old)");
+            $("#NewCommentSpan").text("Comment(New)");
+        }
+        else if (value == 'AddAndRemove') {
+
+            document.all["NewCommentSpan"].style.visibility = "hidden";
+            document.all["tb_NewComment"].style.visibility = "hidden";
+
+            //修改span文字
+            $("#OldCommentSpan").text("Comment:");
+            $("#NewCommentSpan").text("");
+
+            //清除控制項Value
+            $("#tb_OldComment").val("");
+            $("#tb_NewComment").val("");
+        }
+    }
+    //判斷Comment為必填
+    function CheckCommentValue() {
+                
+        var CommentType = $("#ddlCommentType").val();
+        var strOldComment = $("#tb_OldComment").val(); 
+        var strNewComment = $("#tb_NewComment").val();
+        var strDate_Start = $("#tb_Date_Start").val();
+        var strDate_End = $("#tb_Date_End").val();
+        var strDeviceName = $("#tb_device").val();
+        if (strOldComment.replace('/\r\n|\n/g', '') == "" || strOldComment.replace('/\s+/g', '') == "" || strNewComment.replace('/\r\n|\n/g', '') == "" || strNewComment.replace('/\s+/g', '') == "") {
+            alert('Comment為必填欄位!')
+        }
+        else {
+            compare(CommentType,strDeviceName, strOldComment, strNewComment, strDate_Start, strDate_End);
+        }
+    }
+    function init() {
+        var send_text = "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:afa='https://www.algosec.com/afa-ws'><soapenv:Header/><soapenv:Body><afa:ConnectRequest><UserName>apiuser</UserName><Password>1qaz2wsx</Password></afa:ConnectRequest></soapenv:Body></soapenv:Envelope>";
+        var send_text2 = "";
+        var devicetxt = "B2B_Other,10_237_1_249,10_209_9_250_root,IDC-TSTDEV,IT,10_216_6_182_root";
+        /*$.ajax({
+			url:'https://10.216.7.15/AFA/php/ws.php?wsdl',
+			type:'POST',
+			data: send_text,
+			async:false,
+			success:function(data, status, req, xml, xmlHttpRequest, responseXML){
+				sess_ID=req.responseXML.childNodes[0].textContent;
+				console.log(sess_ID);
+				send_text2="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:afa='https://www.algosec.com/afa-ws'><soapenv:Header/><soapenv:Body><afa:GetDevicesListRequest><SessionID>"+sess_ID+"</SessionID></afa:GetDevicesListRequest></soapenv:Body></soapenv:Envelope>";
+			}
+		});
+		$.ajax({
+			url:'https://10.216.7.15/AFA/php/ws.php?wsdl',
+			type:'POST',
+			data: send_text2,
+			async:false,
+			success:function(data, status, req, xml, xmlHttpRequest, responseXML){
+				$(req.responseXML.firstElementChild.firstChild.childNodes[0]).find("Name").each(function() {
+					var name=$(this);
+					myObj.push($(this));
+				});
+				for(var i = 0; i<myObj.length;i++){
+					 var device_name = myObj[i][0].textContent;
+					 console.log(device_name);
+					 //deviceBox.push(device_name);
+					 if(i==(myObj.length-1)){
+						devicetext+=device_name;
+					 }
+					 else{
+						devicetext+=device_name+",";
+					 }
+				}
+			}
+		});
+        */
+        devicetxt = devicetxt.split(',');
+        var c_option = document.getElementById('tb_device');
+        //new Option("text","value")
+        c_option.options.add(new Option("All", "All"));
+        for (var i = 0; i < devicetxt.length; i++) {
+            c_option.options.add(new Option(devicetxt[i], devicetxt[i]));
+        }
+
+
+    }
+    function send() {
+        alert(devicetext);
+        $.ajax({
+            type: "POST",
+            url: 'https://10.216.7.15:5000/dataFromAjax',
+            data: { "sess_ID": sess_ID, "device_name": devicetext },
+            success: function (data) {
+                alert(data.responsestr);
+                console.log(data.responsestr);
+            },
+            error: function () {
+                alert("錯誤");
+            }
+        });
+    }
+    //時間挑選
+    function setDatePicker() {
+        $(".datepick").datepicker({
+            showAnim: "slide",
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+        });
+        $('#tb_Date_Start').datepicker('setDate', 'today');
+        $('#tb_Date_End').datepicker('setDate', 'today');
+    }
+    function compare(CommentType,strDeviceName, strOldComment, strNewComment, strDate_Start, strDate_End) {
+        alert(strDeviceName);
+        $.ajax({
+            type: "POST",
+            url: 'http://127.0.0.1:5000/compare',           
+            data: { 'ddlCommentType': CommentType, 'deviceName': strDeviceName, 'tb_OldComment': strOldComment, 'tb_NewComment': strNewComment, 'tb_Date_Start': strDate_Start, 'tb_Date_End': strDate_End },
+            success: function (returnData) {
+                var _data = JSON.parse(returnData);
+                console.log(_data);
+                var dTable = $('#ipTable').DataTable({
+                    paging: false,
+                    data: _data,
+                    retrieve: true,
+                    destroy: true,
+                    searching: false,
+                    columnDefs: [
+                        {
+                            'targets': 0, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                if (full.name == "IDC-TSTDEV") {
+                                    if (full.fromZone == "port23") {
+                                        return "IDC-TSTDEV-OUT";
+                                    } else if (full.fromZone == "port24") {
+                                        return "IDC-TSTDEV-IN";
+                                    } else {
+                                        var f_str = full.fromZone;
+                                        return f_str;
+                                    }
+                                } else if (full.name == "B2B_Other") {
+                                    if (full.fromZone == "port3") {
+                                        return "B2B_Trust";
+                                    } else if (full.fromZone == "port4") {
+                                        return "B2B_Untrust";
+                                    } else {
+                                        var f_str = full.fromZone;
+                                        return f_str;
+                                    }
+                                }
+                                else {
+                                    var f_str = full.fromZone;
+                                    return f_str;
+                                }
+                            }
+                        },
+                        {
+                            'targets': 1, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                var s_str = "";
+                                for (var i = 0; i < full.source.length; i++) {
+                                    s_str += "<p>" + full.source[i] + "</p>";
+                                }
+                                return s_str;
+                            }
+                        },
+                        {
+                            'targets': 2, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                var d_str = "";
+                                for (var i = 0; i < full.destination.length; i++) {
+                                    d_str += "<p>" + full.destination[i] + "</p>";
+                                }
+                                return d_str;
+                            }
+                        },
+                        {
+                            'targets': 3, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                var ser_str = "";
+                                for (var i = 0; i < full.service.length; i++) {
+                                    ser_str += "<p>" + full.service[i] + "</p>";
+                                }
+                                return ser_str;
+                            }
+                        },
+                        {
+                            'targets': 4, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                var act_str = full.action;
+                                return act_str;
+                            }
+                        },
+                        {
+                            'targets': 5, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                var comments_str = "";
+                                for (var i = 0; i < full.comments.length; i++) {
+                                    comments_str += "<p>" + full.comments[i] + "</p>";
+                                }
+                                return comments_str;
+                            }
+                        },
+                        {
+                            'targets': 6, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                var log_str = full.log;
+                                return log_str;
+                            }
+                        },
+                        {
+                            'targets': 7, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                return "N/A";
+                            }
+                        },
+                        {
+                            'targets': 8, 'width': '5%', 'className': 'text-center',
+                            'render': function (_data, type, full, meta) {
+                                return full.c_date;
+                            }
+                        }
+                    ],
+                    columns: [
+                        { 'title': 'FROM' },
+                        { 'title': 'SOURCE' },
+                        { 'title': 'DESTINATION' },
+                        { 'title': 'SERVICES' },
+                        { 'title': 'ACTION' },
+                        { 'title': 'COMMENT' },
+                        { 'title': 'LOG' },
+                        { 'title': 'SCHEDULE' },
+                        { 'title': 'DATE' }
+                    ]
+                });
+                dTable.clear().draw();
+                dTable.rows.add(_data);
+                dTable.columns.adjust().draw();
+            },
+            error: function () {
+                alert("錯誤");
+            }
+        });
+        /*datatable*/
+        /*var dTable = $('#ipTable').DataTable({
+            paging: false,
+            data: _data,
+            retrieve: true,
+            destroy: true,
+            searching: false,
+            columnDefs: [
+				{
+				    'targets': 0, 'width': '5%', 'className': 'text-center',
+				    'render': function (_data, type, full, meta) {
+				        return "N/A";
+				    }
+				},
+				{
+				    'targets': 7, 'width': '5%', 'className': 'text-center',
+				    'render': function (_data, type, full, meta) {
+				        return "N/A";
+				    }
+				}
+            ],
+            columns: [
+				{ 'title': 'FROM' },
+				{ 'title': 'SOURCE', 'data': 'source' },
+				{ 'title': 'DESTINATION', 'data': 'destination' },
+				{ 'title': 'SERVICES', 'data': 'service' },
+				{ 'title': 'ACTION', 'data': 'action' },
+				{ 'title': 'COMMENT', 'data': 'comments' },
+				{ 'title': 'LOG', 'data': 'log' },
+				{ 'title': 'SCHEDULE' }
+            ]
+        });
+        dTable.clear().draw();
+        dTable.rows.add(_data);
+        dTable.columns.adjust().draw();*/
+    }
+    function ExportExcel() {
+        alert('匯出成功!');
+    }
+</script>
