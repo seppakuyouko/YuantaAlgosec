@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:afa="https://www.algosec.com/afa-ws">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <afa:GetRulesByDeviceRequest>
+         <SessionID>b375b61ddfc96db556e6c46c08660cba</SessionID>
+         <DeviceID>192_168_95_239</DeviceID>
+      </afa:GetRulesByDeviceRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
